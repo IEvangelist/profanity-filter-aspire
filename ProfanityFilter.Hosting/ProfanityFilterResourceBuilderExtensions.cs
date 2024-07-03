@@ -37,7 +37,7 @@ internal static class ProfanityFilterContainerImageTags
 
     internal const string Image = "ievangelist/profanity-filter-api";
 
-    internal const string Tag = "0.1";
+    internal const string Tag = "latest";
 
     internal const string CertificateBindMountTarget = "/etc/ssl/aspnetcert/";
 }
