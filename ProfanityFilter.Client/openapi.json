@@ -1,0 +1,325 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ProfanityFilter.WebApi",
+    "version": "1.0"
+  },
+  "paths": {
+    "/profanity/filter": {
+      "post": {
+        "tags": [
+          "ProfanityFilterEndpointExtensions"
+        ],
+        "summary": "Use this endpoint to attempt applying a profanity-filter. The response is returned as Markdown.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfanityFilterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfanityFilterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profanity/strategies": {
+      "get": {
+        "tags": [
+          "ProfanityFilterEndpointExtensions"
+        ],
+        "summary": "Returns an array of the possible replacement strategies available. See https://github.com/IEvangelist/profanity-filter?tab=readme-ov-file#-replacement-strategies",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StrategyResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profanity/targets": {
+      "get": {
+        "tags": [
+          "ProfanityFilterEndpointExtensions"
+        ],
+        "summary": "Returns an array of the possible filter targets available.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FilterTargetResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profanity/data": {
+      "get": {
+        "tags": [
+          "ProfanityFilterEndpointExtensions"
+        ],
+        "summary": "Returns an array of the data names.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profanity/data/{name}": {
+      "get": {
+        "tags": [
+          "ProfanityFilterEndpointExtensions"
+        ],
+        "summary": "Returns an array of the profane words for a given data name.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FilterTarget": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "FilterTargetResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HttpValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "ProfanityFilterRequest": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "strategy": {
+            "$ref": "#/components/schemas/ReplacementStrategy"
+          },
+          "target": {
+            "$ref": "#/components/schemas/FilterTarget"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfanityFilterResponse": {
+        "type": "object",
+        "properties": {
+          "containsProfanity": {
+            "type": "boolean"
+          },
+          "inputText": {
+            "type": "string",
+            "nullable": true
+          },
+          "filteredText": {
+            "type": "string",
+            "nullable": true
+          },
+          "replacementStrategy": {
+            "$ref": "#/components/schemas/ReplacementStrategy"
+          },
+          "filtrationSteps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfanityFilterStep"
+            },
+            "nullable": true
+          },
+          "matches": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfanityFilterStep": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "nullable": true
+          },
+          "output": {
+            "type": "string",
+            "nullable": true
+          },
+          "profaneSourceData": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReplacementStrategy": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "StrategyResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>51942e46-8f2a-4ea3-9dbf-7fb53eb7a918</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProfanityFilter.Frontend.Client\ProfanityFilter.Frontend.Client.csproj" />
+    <ProjectReference Include="..\ProfanityFilter.Web\ProfanityFilter.Web\ProfanityFilter.Web.csproj" />
+    <!-- The IsAspireProjectResource attribute tells .NET Aspire to treat this 
+       reference as a standard project reference and not attempt to generate
+       a metadata file -->
+    <ProjectReference Include="..\ProfanityFilter.Hosting\ProfanityFilter.Hosting.csproj"
+                      IsAspireProjectResource="false" />
+  </ItemGroup>
+
+</Project>
