@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ProfanityFilter.Web": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:59635;http://localhost:59636"
+    }
+  }
+}
