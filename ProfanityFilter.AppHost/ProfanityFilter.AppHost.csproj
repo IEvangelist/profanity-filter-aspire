@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProfanityFilter.Frontend.Client\ProfanityFilter.Frontend.Client.csproj" />
     <ProjectReference Include="..\ProfanityFilter.Web\ProfanityFilter.Web\ProfanityFilter.Web.csproj" />
     <!-- The IsAspireProjectResource attribute tells .NET Aspire to treat this 
        reference as a standard project reference and not attempt to generate
